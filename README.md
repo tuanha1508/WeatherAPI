@@ -2,16 +2,42 @@
 
 A comprehensive weather data API server built with Node.js, Express, and SQLite, featuring both a classic HTML frontend and a modern Next.js frontend with React and TypeScript.
 
-## 🚀 Features
+## 🚀 Quick Start
+
+### Option 1: Start Everything at Once (Recommended)
+```bash
+# Start both API server and Next.js frontend
+./start-all.sh
+```
+- API Server: `http://localhost:3000`
+- Modern Frontend: `http://localhost:3001`
+
+### Option 2: Start Components Separately
+```bash
+# Terminal 1: Start API server
+npm start
+
+# Terminal 2: Start Next.js frontend
+cd weather-frontend && npm run dev
+```
+
+### Option 3: API Only
+```bash
+npm start
+# API server only at http://localhost:3000
+```
+
+## ✨ Features
 
 - **Custom RESTful API** with 6 endpoints for weather data management
-- **SQLite Database** for persistent data storage
-- **Two Frontend Options**: Classic HTML and Modern Next.js with React
+- **SQLite Database** for persistent data storage with automatic setup
+- **Modern Next.js Frontend** with React, TypeScript, and Tailwind CSS
 - **Comprehensive Testing** suite with automated API tests
 - **Complete CRUD Operations** (Create, Read, Update, Delete)
 - **Search Functionality** for weather data
-- **Input Validation** and error handling
+- **Input Validation** and comprehensive error handling
 - **Responsive Design** that works on all devices
+- **Type Safety** with full TypeScript integration
 
 ## 📊 API Endpoints
 
@@ -216,71 +242,77 @@ The application includes sample data for these cities:
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Node.js (version 14 or higher)
-- npm (Node Package Manager)
+- **Node.js** (version 16 or higher recommended)
+- **npm** (comes with Node.js)
 
-### Installation Steps
+### Quick Installation
 
-1. **Clone or download the project**
+1. **Clone the repository**
 ```bash
 git clone <repository-url>
 cd WeatherAPI
 ```
 
-2. **Install API server dependencies**
+2. **Install all dependencies**
 ```bash
+# Install API server dependencies
 npm install
-```
 
-3. **Start the API server**
-```bash
-npm start
-```
-
-The API server will start on `http://localhost:3000`
-
-## 🌐 Frontend Options
-
-You have two frontend options to choose from:
-
-### Option 1: Classic HTML Frontend (Simple)
-- Open your browser and go to `http://localhost:3000`
-- Uses the static HTML file in the `public/` directory
-- Simple and lightweight
-
-### Option 2: Modern Next.js Frontend (Recommended)
-
-1. **Navigate to the frontend directory:**
-```bash
+# Install frontend dependencies
 cd weather-frontend
-```
-
-2. **Install frontend dependencies:**
-```bash
 npm install
+cd ..
 ```
 
-3. **Start the Next.js development server:**
+3. **Start the application**
 ```bash
-npm run dev
+# Option 1: Start everything at once
+./start-all.sh
+
+# Option 2: Start API server only
+npm start
+
+# Option 3: Start both manually
+npm start                              # Terminal 1
+cd weather-frontend && npm run dev     # Terminal 2
 ```
 
-4. **Open your browser and visit:**
-```
-http://localhost:3001
-```
+4. **Access the application**
+- **Frontend**: `http://localhost:3001`
+- **API Server**: `http://localhost:3000`
 
-#### Next.js Frontend Features:
-- **Modern UI**: Built with Next.js 14, React, TypeScript, and Tailwind CSS
-- **Responsive Design**: Works perfectly on desktop and mobile
-- **Real-time Updates**: Live data synchronization
-- **Type Safety**: Full TypeScript integration
-- **Better Performance**: Optimized React components
-- **Modern Development**: Hot reloading and better developer experience
+### Initial Database Setup
+The SQLite database (`weather.db`) is created automatically on first startup with sample data for:
+- New York, London, Tokyo, Sydney, Paris
+
+## 🌐 Frontend
+
+### 🎨 Next.js Frontend
+**URL**: `http://localhost:3001`
+
+**Features**:
+- **Next.js 15** with React 19
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling
+- **Radix UI** components for accessibility
+- **React Hook Form** with Zod validation
+- **Real-time updates** and live data synchronization
+- **Responsive design** optimized for all devices
+- **Dark/light theme** support
+- **Form validation** with user-friendly error messages
+
+**Tech Stack**:
+- Next.js 15.3.4
+- React 19.0.0
+- TypeScript 5.x
+- Tailwind CSS 3.4.1
+- Radix UI Components
+- Lucide Icons
+- React Hook Form + Zod
 
 ## 📱 Frontend Usage
 
-Both frontends provide the same functionality:
+The Next.js frontend provides comprehensive functionality:
 
 ### View Weather Data
 - Browse all weather data with search functionality
@@ -304,33 +336,22 @@ Both frontends provide the same functionality:
 
 ## 🧪 Testing
 
-The project includes comprehensive automated tests for all API endpoints.
-
-### Run Tests
-1. **Start the API server** (in one terminal):
+### Automated Testing
 ```bash
+# Start the API server first
 npm start
-```
 
-2. **Run tests** (in another terminal):
-```bash
+# Run the test suite (in another terminal)
 npm test
 # or
 ./test-api.sh
 ```
 
-### Test Coverage
-The test suite covers:
-- ✅ Health endpoint functionality
-- ✅ GET all weather data
-- ✅ GET weather by city (existing and non-existent)
-- ✅ POST new weather data
-- ✅ POST duplicate data (error handling)
-- ✅ POST invalid data (validation)
-- ✅ PUT update weather data
-- ✅ DELETE weather data
-- ✅ Search functionality
-- ✅ Invalid endpoint handling
+### Manual Testing
+```bash
+# Test all endpoints interactively
+./test-api.sh
+```
 
 ## 🔧 Manual Testing with cURL
 
@@ -390,117 +411,268 @@ curl -X GET http://localhost:3000/api/weather/search/lon
 
 ```
 WeatherAPI/
-├── server.js              # Main API server with endpoints
-├── package.json           # API server dependencies and scripts
-├── test.js               # Comprehensive test suite
-├── test-api.sh           # Manual testing script
-├── README.md             # This file
-├── weather.db            # SQLite database (created automatically)
-└── weather-frontend/     # Modern Next.js frontend
-    ├── src/
-    │   ├── app/          # Next.js app directory
-    │   ├── components/   # React components
-    │   ├── types/        # TypeScript types
-    │   └── lib/          # Utility functions
-    ├── package.json      # Frontend dependencies
-    └── README.md         # Frontend documentation
+├── 📄 server.js              # Main API server with Express routes
+├── 📄 package.json           # Backend dependencies and scripts
+├── 📄 start-all.sh          # Script to start both API and frontend
+├── 📄 test-api.sh           # Comprehensive API testing script
+├── 📄 README.md             # This documentation
+├── 🗄️ weather.db            # SQLite database (auto-created)
+├── 📄 .gitignore            # Git ignore patterns
+└── 📁 weather-frontend/     # Modern Next.js frontend
+    ├── 📄 package.json      # Frontend dependencies
+    ├── 📄 next.config.ts    # Next.js configuration
+    ├── 📄 tailwind.config.ts # Tailwind CSS configuration
+    ├── 📄 tsconfig.json     # TypeScript configuration
+    ├── 📁 src/
+    │   ├── 📁 app/          # Next.js 14 app directory
+    │   │   ├── 📄 layout.tsx
+    │   │   ├── 📄 page.tsx
+    │   │   └── 📄 globals.css
+    │   ├── 📁 components/   # React components
+    │   │   ├── 📄 WeatherDashboard.tsx
+    │   │   ├── 📄 WeatherCard.tsx
+    │   │   ├── 📄 AddWeatherForm.tsx
+    │   │   ├── 📄 UpdateWeatherForm.tsx
+    │   │   ├── 📄 WeatherList.tsx
+    │   │   ├── 📄 ApiDocumentation.tsx
+    │   │   └── 📁 ui/       # Reusable UI components
+    │   ├── 📁 lib/          # Utility functions
+    │   │   ├── 📄 api.ts    # API client functions
+    │   │   └── 📄 utils.ts  # Helper utilities
+    │   └── 📁 types/        # TypeScript type definitions
+    │       └── 📄 weather.ts
+    └── 📁 public/           # Static assets
 ```
 
-## 🔒 Error Handling
+## 🔧 Development Scripts
 
-The API includes comprehensive error handling:
-
-- **400 Bad Request**: Invalid input data or missing required fields
-- **404 Not Found**: Resource not found (city or weather ID)
-- **409 Conflict**: Attempting to create duplicate city data
-- **500 Internal Server Error**: Database or server errors
-
-All errors return a consistent JSON format:
-```json
-{
-  "success": false,
-  "message": "Error description"
-}
+### Backend (Root Directory)
+```bash
+npm start          # Start production server
+npm run dev        # Start with nodemon (development)
+npm test           # Run API tests
 ```
 
-## 🌟 Key Features Implemented
+### Frontend (weather-frontend/)
+```bash
+npm run dev        # Start Next.js development server
+npm run build      # Build for production
+npm start          # Start production server
+npm run lint       # Run ESLint
+```
 
-### ✅ Mandatory Requirements
-- [x] **Custom API**: 6 different endpoints (exceeding the required 4)
-- [x] **Database Integration**: SQLite with full CRUD operations
-- [x] **Testing**: Comprehensive automated test suite
-- [x] **Documentation**: Complete API documentation
+### Utility Scripts
+```bash
+./start-all.sh     # Start both API and frontend
+./test-api.sh      # Run comprehensive API tests
+```
 
-### ✅ Optional Requirements
-- [x] **Frontend**: Two frontend options (HTML + Next.js React)
-- [x] **API Documentation**: Built-in documentation interface
-- [x] **Advanced Features**: Search, validation, error handling
+## 🌟 Technology Stack
 
-## 🚀 Advanced Features
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** 4.18.2 - Web framework
+- **SQLite3** 5.1.6 - Database
+- **CORS** 2.8.5 - Cross-origin requests
+- **Body-parser** 1.20.2 - Request parsing
 
-1. **Search Functionality**: Partial matching search across city names
-2. **Input Validation**: Comprehensive validation for all endpoints
-3. **Responsive Design**: Mobile-first frontend design
-4. **Real-time Updates**: Frontend automatically refreshes data
-5. **Error Handling**: Graceful error handling throughout the application
-6. **Health Monitoring**: Server health check endpoint
-7. **Automated Testing**: Complete test coverage for all endpoints
-8. **Modern Frontend**: Next.js with React, TypeScript, and Tailwind CSS
-9. **Type Safety**: Full TypeScript integration in the frontend
+### Frontend
+- **Next.js** 15.3.4 - React framework
+- **React** 19.0.0 - UI library
+- **TypeScript** 5.x - Type safety
+- **Tailwind CSS** 3.4.1 - Styling
+- **Radix UI** - Accessible components
+- **React Hook Form** 7.58.1 - Form handling
+- **Zod** 3.25.67 - Schema validation
+- **Lucide React** - Icons
+
+## 🔒 Security & Validation
+
+### API Security
+- **CORS** enabled for cross-origin requests
+- **Input validation** on all endpoints
+- **SQL injection protection** via parameterized queries
+- **Error handling** without exposing internal details
+
+### Frontend Security
+- **TypeScript** for compile-time safety
+- **Zod schemas** for runtime validation
+- **Sanitized inputs** in all forms
+- **Client-side validation** with server-side backup
+
+## 🚀 Deployment
+
+### Environment Variables
+Create a `.env` file for production:
+```bash
+NODE_ENV=production
+PORT=3000
+DATABASE_PATH=./weather.db
+```
+
+### Production Build
+```bash
+# Build frontend
+cd weather-frontend
+npm run build
+
+# Start production servers
+npm start                    # API server
+npm start -p 3001           # Frontend server
+```
 
 ## 🤝 Development Workflow
 
+### For New Features:
+1. **Start development environment**:
+   ```bash
+   ./start-all.sh
+   ```
+
+2. **Make changes** to backend (`server.js`) or frontend (`weather-frontend/src/`)
+
+3. **Test your changes**:
+   ```bash
+   npm test
+   ```
+
+4. **Check frontend** at `http://localhost:3001`
+
+5. **Commit your changes**:
+   ```bash
+   git add .
+   git commit -m "Add new feature"
+   ```
+
 ### For API Development:
-1. Start the API server: `npm start`
-2. Run tests: `npm test`
-3. Use manual testing script: `./test-api.sh`
+- Server auto-restarts with `npm run dev`
+- Test with `./test-api.sh`
+- Access API docs at `http://localhost:3000/api`
 
 ### For Frontend Development:
-1. Start the API server: `npm start`
-2. In another terminal, start the frontend:
-```bash
-cd weather-frontend
-npm run dev
-```
-3. Access the modern frontend at `http://localhost:3001`
+- Hot reloading with `npm run dev`
+- TypeScript checking in real-time
+- Access at `http://localhost:3001`
 
 ## 💡 Future Enhancements
 
-Potential improvements that could be added:
-- User authentication and authorization
-- Rate limiting for API endpoints
-- Weather data history and trends
-- Integration with external weather APIs
-- Data visualization charts
-- Email notifications for weather alerts
-- API versioning
-- Docker containerization
-- Deployment configuration
-- Real-time WebSocket updates
+**Planned Features:**
+- [ ] User authentication and sessions
+- [ ] API rate limiting
+- [ ] Weather data history and trends
+- [ ] Integration with live weather APIs
+- [ ] Data visualization charts
+- [ ] Email/SMS notifications
+- [ ] API versioning (v2)
+- [ ] Docker containerization
+- [ ] Cloud deployment guides
+- [ ] WebSocket real-time updates
+
+**Technical Improvements:**
+- [ ] Add more comprehensive tests
+- [ ] Implement caching layer
+- [ ] Add API documentation with Swagger
+- [ ] Performance monitoring
+- [ ] Logging system
+- [ ] Database migrations
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Port Already in Use:**
+```bash
+# Kill processes on ports 3000 or 3001
+lsof -ti:3000 | xargs kill -9
+lsof -ti:3001 | xargs kill -9
+```
+
+**Database Issues:**
+```bash
+# Remove and recreate database
+rm weather.db
+npm start  # Database will be recreated
+```
+
+**Dependencies Issues:**
+```bash
+# Clean install
+rm -rf node_modules package-lock.json
+npm install
+
+# Frontend dependencies
+cd weather-frontend
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Frontend Build Issues:**
+```bash
+cd weather-frontend
+rm -rf .next
+npm run build
+```
 
 ## 🤝 Contributing
 
-Feel free to fork this project and submit pull requests for any improvements:
+We welcome contributions! Please follow these steps:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
+1. **Fork** the repository
+2. **Create** a feature branch:
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make** your changes
+4. **Test** thoroughly:
+   ```bash
+   npm test
+   ./test-api.sh
+   ```
+5. **Commit** your changes:
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+6. **Push** to your branch:
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+7. **Create** a Pull Request
 
-## 📜 License
-
-This project is licensed under the MIT License - see the package.json file for details.
+### Development Guidelines
+- Follow TypeScript best practices
+- Add tests for new features
+- Update documentation
+- Ensure responsive design
+- Test on multiple browsers
 
 ## 📞 Support
 
-If you encounter any issues or have questions:
-1. Check the test results with `npm test`
-2. Verify the API server is running on `http://localhost:3000`
-3. For the Next.js frontend, check `http://localhost:3001`
-4. Check the browser console for any frontend errors
-5. Review the API documentation
+**Need Help?**
+
+1. **Check the issues** first: Run `npm test` to verify setup
+2. **API Server**: Ensure it's running on `http://localhost:3000`
+3. **Frontend**: Check `http://localhost:3001` is accessible
+4. **Browser Console**: Look for JavaScript errors
+5. **Network Tab**: Verify API calls are successful
+
+**Contact:**
+- Create an issue on GitHub
+- Check existing documentation
+- Review test results for debugging
+
+## 📜 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with modern web technologies
+- Inspired by real-world weather applications
+- Community-driven development
+- Open source contributions welcome
 
 ---
 
-**Built with ❤️ using Node.js, Express, SQLite, React, Next.js, TypeScript, and Tailwind CSS.** 
+**🌟 Built with passion using Node.js, Express, SQLite, React, Next.js, TypeScript, and Tailwind CSS.**
+
+*Happy coding! 🚀* 
