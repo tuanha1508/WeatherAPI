@@ -9,6 +9,8 @@ Comprehensive test suite implemented for the Weather API server with **55 total 
 - **Execution Time**: < 1 second
 - **Status**: All tests passing ✅
 
+![Test Coverage Report](tests/659b41337f894f46365ea0dcc37298a924c864bcb0e7d623e797357492df3c8a.png)
+
 ## Testing Strategy
 
 ### 1. Unit Tests (`tests/unit/`)
