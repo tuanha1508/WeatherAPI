@@ -1,0 +1,29 @@
+version: api.keploy.io/v1beta1
+kind: config
+metadata:
+  name: weather-api-config
+  
+spec:
+  path: "./tests/keploy"
+  command: "node server.js"
+  port: 3000
+  proxyPort: 16789
+  
+test:
+  path: "./tests/keploy/test-sets"
+  globalNoise:
+    global:
+      body: {
+        "created_at": [],
+        "updated_at": [],
+        "timestamp": []
+      }
+  selectedTests: {}
+  
+record:
+  filters: []
+
+contract:
+  schema: "./openapi.yaml"
+  
+appContainer: "weather-api" 

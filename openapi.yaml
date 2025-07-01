@@ -1,0 +1,466 @@
+openapi: 3.0.3
+info:
+  title: Weather API
+  description: A comprehensive Weather API for managing weather data with CRUD operations
+  version: 1.0.0
+  contact:
+    name: Weather API Support
+    email: support@weatherapi.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://api.weather.com
+    description: Production server
+
+paths:
+  /:
+    get:
+      summary: Get API information
+      description: Returns general information about the Weather API
+      tags:
+        - General
+      responses:
+        '200':
+          description: API information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Weather API Server"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  endpoints:
+                    type: object
+                  frontend:
+                    type: string
+
+  /health:
+    get:
+      summary: Health check
+      description: Returns the health status of the API
+      tags:
+        - General
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  uptime:
+                    type: number
+                    example: 3600.123
+
+  /api/weather:
+    get:
+      summary: Get all weather data
+      description: Retrieve all weather data entries from the database
+      tags:
+        - Weather
+      responses:
+        '200':
+          description: Weather data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WeatherData'
+                  count:
+                    type: integer
+                    example: 5
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Add new weather data
+      description: Create a new weather data entry
+      tags:
+        - Weather
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeatherInput'
+      responses:
+        '201':
+          description: Weather data created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Weather data added successfully"
+                  data:
+                    $ref: '#/components/schemas/WeatherData'
+        '400':
+          description: Bad request - missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict - city already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/weather/{city}:
+    get:
+      summary: Get weather data by city
+      description: Retrieve weather data for a specific city
+      tags:
+        - Weather
+      parameters:
+        - name: city
+          in: path
+          required: true
+          description: The name of the city
+          schema:
+            type: string
+            example: "New York"
+      responses:
+        '200':
+          description: Weather data found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/WeatherData'
+        '404':
+          description: Weather data not found for the specified city
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/weather/{id}:
+    put:
+      summary: Update weather data by ID
+      description: Update existing weather data entry by ID
+      tags:
+        - Weather
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the weather data entry
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeatherInput'
+      responses:
+        '200':
+          description: Weather data updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Weather data updated successfully"
+                  data:
+                    $ref: '#/components/schemas/WeatherData'
+        '400':
+          description: Bad request - missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Weather data not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete weather data by ID
+      description: Delete a weather data entry by ID
+      tags:
+        - Weather
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the weather data entry to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Weather data deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Weather data with ID 1 deleted successfully"
+        '404':
+          description: Weather data not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/weather/search/{query}:
+    get:
+      summary: Search weather data by city name
+      description: Search for weather data entries by city name (partial match)
+      tags:
+        - Weather
+      parameters:
+        - name: query
+          in: path
+          required: true
+          description: The search query for city names
+          schema:
+            type: string
+            example: "New"
+      responses:
+        '200':
+          description: Search results retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WeatherData'
+                  count:
+                    type: integer
+                    example: 2
+                  query:
+                    type: string
+                    example: "New"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    WeatherData:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the weather data entry
+          example: 1
+        city:
+          type: string
+          description: The name of the city
+          example: "New York"
+        temperature:
+          type: number
+          format: float
+          description: Temperature in Celsius
+          example: 22.5
+        humidity:
+          type: integer
+          description: Humidity percentage
+          minimum: 0
+          maximum: 100
+          example: 65
+        pressure:
+          type: number
+          format: float
+          description: Atmospheric pressure in hPa
+          example: 1013.25
+        description:
+          type: string
+          description: Weather description
+          example: "Partly cloudy"
+        wind_speed:
+          type: number
+          format: float
+          description: Wind speed in km/h
+          example: 15.2
+        visibility:
+          type: number
+          format: float
+          description: Visibility in kilometers
+          example: 10.0
+        created_at:
+          type: string
+          format: date-time
+          description: When the entry was created
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: When the entry was last updated
+          example: "2024-01-15T10:30:00Z"
+
+    WeatherInput:
+      type: object
+      required:
+        - city
+        - temperature
+        - humidity
+        - pressure
+        - description
+        - wind_speed
+        - visibility
+      properties:
+        city:
+          type: string
+          description: The name of the city
+          example: "New York"
+        temperature:
+          type: number
+          format: float
+          description: Temperature in Celsius
+          example: 22.5
+        humidity:
+          type: integer
+          description: Humidity percentage
+          minimum: 0
+          maximum: 100
+          example: 65
+        pressure:
+          type: number
+          format: float
+          description: Atmospheric pressure in hPa
+          example: 1013.25
+        description:
+          type: string
+          description: Weather description
+          example: "Partly cloudy"
+        wind_speed:
+          type: number
+          format: float
+          description: Wind speed in km/h
+          example: 15.2
+        visibility:
+          type: number
+          format: float
+          description: Visibility in kilometers
+          example: 10.0
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          description: Error message
+          example: "Weather data not found"
+        error:
+          type: string
+          description: Detailed error information
+          example: "Database connection failed"
+
+  examples:
+    WeatherDataExample:
+      value:
+        id: 1
+        city: "New York"
+        temperature: 22.5
+        humidity: 65
+        pressure: 1013.25
+        description: "Partly cloudy"
+        wind_speed: 15.2
+        visibility: 10.0
+        created_at: "2024-01-15T10:30:00Z"
+        updated_at: "2024-01-15T10:30:00Z"
+
+    WeatherInputExample:
+      value:
+        city: "New York"
+        temperature: 22.5
+        humidity: 65
+        pressure: 1013.25
+        description: "Partly cloudy"
+        wind_speed: 15.2
+        visibility: 10.0
+
+tags:
+  - name: General
+    description: General API operations
+  - name: Weather
+    description: Weather data operations 

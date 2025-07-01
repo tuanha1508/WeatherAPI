@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  weather-api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=test
+    volumes:
+      - .:/app
+      - ./weather.db:/app/weather.db
+    networks:
+      - keploy-network
+
+  keploy:
+    image: ghcr.io/keploy/keploy:latest
+    depends_on:
+      - weather-api
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - KEPLOY_MODE=record
+    command: ["record", "-c", "docker-compose.keploy.yml", "--container-name", "weather-api"]
+    networks:
+      - keploy-network
+
+networks:
+  keploy-network:
+    driver: bridge 
