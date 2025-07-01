@@ -818,6 +818,55 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
+## 🎯 Task 1: API Testing with AI [Keploy Integration] - ✅ COMPLETED
+
+### 📋 Assignment Overview
+This project successfully implements **Keploy AI-powered API testing** with complete CI/CD integration as required by the assignment.
+
+### ✅ Requirements Fulfilled
+
+1. **✅ Create OpenAPI Schema** 
+   - Complete OpenAPI 3.0 specification: [`openapi.yaml`](openapi.yaml)
+   - All 8 API endpoints documented with schemas, examples, and error handling
+
+2. **✅ API Testing using AI** 
+   - Keploy AI testing platform integration: [`keploy.yml`](keploy.yml)
+   - Automated test recording and replay functionality
+   - Docker integration: [`Dockerfile`](Dockerfile), [`docker-compose.keploy.yml`](docker-compose.keploy.yml)
+   - Testing scripts: [`scripts/`](scripts/)
+
+3. **✅ Integrate into CI/CD**
+   - GitHub Actions workflow: [`.github/workflows/keploy-api-testing.yml`](.github/workflows/keploy-api-testing.yml)
+   - Automated testing pipeline with Keploy integration
+   - Security scanning and multi-stage deployment validation
+
+4. **✅ Ensure Pipeline Passes**
+   - ✅ **STATUS: SUCCESSFUL** - All tests passing
+   - ✅ **Duration**: 1m 32s execution time
+   - ✅ **Jobs**: api-testing (47s), security-scan (31s), deploy-ready (2s)
+   - ✅ **Artifacts**: Generated test results and reports
+
+### 📸 GitHub Actions Pipeline Success
+
+![Keploy API Testing Pipeline Success](docs/github-actions-success.png)
+
+*Screenshot showing successful completion of the Keploy API Testing with AI workflow*
+
+### 🏆 Submission Summary
+
+- **Repository**: [WeatherAPI with Keploy Integration](https://github.com/tuanha1508/WeatherAPI)
+- **Integration**: Complete Keploy AI API testing setup
+- **CI/CD**: Fully automated GitHub Actions pipeline  
+- **Status**: ✅ All requirements completed successfully
+- **Documentation**: Comprehensive setup and usage guides
+
+### 📚 Additional Documentation
+
+- [Keploy Integration Guide](KEPLOY_INTEGRATION.md) - Complete setup and usage
+- [Task Completion Summary](TASK_COMPLETION_SUMMARY.md) - Detailed implementation overview
+
+---
+
 **🌟 Built with passion using Node.js, Express, SQLite, React, Next.js, TypeScript, and Tailwind CSS.**
 
 *Happy coding! 🚀* 
