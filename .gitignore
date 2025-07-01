@@ -130,4 +130,4 @@ Thumbs.db
 
 # Temporary files
 *.tmp
-*.temp 
+*.temp keploy_darwin_amd64.tar.gz
